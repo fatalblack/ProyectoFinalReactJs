@@ -1,12 +1,11 @@
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
-import iconoCarrito from './assets/cart-white.svg'
 
 const CartWidget = () => {
     return (
         <Button variant="dark">
             <img
-              src={iconoCarrito}
+              src='/icons/cart-white.svg'
               width="24"
               height="24"
               className="d-inline-block align-top"
