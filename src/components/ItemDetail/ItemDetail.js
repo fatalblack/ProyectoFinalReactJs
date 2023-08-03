@@ -1,9 +1,17 @@
 import ItemCount from '../ItemCount/ItemCount'
-import {Card} from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
+import { useState } from 'react'
+import { NavLink } from 'react-router-dom'
+import { useContext } from 'react'
+import { CartContext } from '../../contexts/CartContext/CartContext'
 
 const ItemDetail = ({product}) => {
+    const { addItem } = useContext(CartContext)
+    const [productAdded, setProductAdded] = useState(0)
+
     const onAddCallback = (total) => {
-        console.log('Se agregaron ' + total + ' unidades')
+        setProductAdded(total)
+        addItem(product, total)
     }
 
     return (
@@ -12,7 +20,7 @@ const ItemDetail = ({product}) => {
                 <Card.Title>{product.title}</Card.Title>
                 <img src={product.pictureUrl} alt="" className='Image-default-size'></img>
                 <Card.Text>
-                    <strong>{product.price}</strong>
+                    <strong>$ {product.price}</strong>
                 </Card.Text>
                 <Card.Text>
                     Stock disponible: {product.stock}
@@ -22,7 +30,11 @@ const ItemDetail = ({product}) => {
                 </Card.Text>
             </Card.Body>
             <Card.Body>
-                <ItemCount stock={product.stock} initial={1} onAdd={(total) => {onAddCallback(total)}}></ItemCount>
+                {productAdded > 0 ?
+                    <NavLink to={`/cart`} className="btn btn-primary">Finalizar compra</NavLink> :
+                    <ItemCount stock={product.stock} initial={1} onAdd={(total) => {onAddCallback(total)}}></ItemCount>
+                }
+                
             </Card.Body>
         </Card>
     )

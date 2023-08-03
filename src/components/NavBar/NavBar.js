@@ -1,18 +1,33 @@
 import { Navbar, Container, Nav } from 'react-bootstrap'
 import { NavLink } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import CartWidget from "../CartWidget/CartWidget"
-import { categories } from '../../mockAsync'
+import { getCategories } from '../../database/categories'
 
 const NavBar = () => {
+    const [categories, setCategories] = useState([])
+
+    useEffect(() => {
+        getCategories()
+        .then((result) => {
+            setCategories(result)
+        }, (err) => {
+            console.log('Error: ' + err)
+        }).catch((ex) => {
+            console.log('Excepción: ' + ex)
+        })
+    }, [])
     return(
         <nav>
             <Navbar bg="primary" data-bs-theme="dark">
                 <Container>
                     <NavLink to="/" className="navbar-brand">Ecommerce LFA</NavLink>
                     <Nav className="me-auto">
-                        <NavLink to={`/category/${categories.cellphone}`} className="nav-link">Celulares</NavLink>
-                        <NavLink to={`/category/${categories.tablet}`} className="nav-link">Tablets</NavLink>
-                        <NavLink to={`/category/${categories.notebook}`} className="nav-link">Notebooks</NavLink>
+                        {
+                            categories.map(category => (
+                                <NavLink key={category.id} to={`/category/${category.id}`} className="nav-link">{category.title}</NavLink>
+                            ))
+                        }
                         <CartWidget></CartWidget>
                     </Nav>
                 </Container>

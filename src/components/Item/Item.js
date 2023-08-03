@@ -8,7 +8,7 @@ const Item = ({product}) => {
                 <Card.Title>{product.title}</Card.Title>
                 <img src={product.pictureUrl} alt="" className='Image-default-size'></img>
                 <Card.Text>
-                    <strong>{product.price}</strong>
+                    <strong>$ {product.price}</strong>
                 </Card.Text>
                 <Card.Text>
                     Stock disponible: {product.stock}
